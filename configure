@@ -601,6 +601,8 @@ QDP_USE_OMP_THREADS_FALSE
 QDP_USE_OMP_THREADS_TRUE
 QDP_USE_QMT_THREADS_FALSE
 QDP_USE_QMT_THREADS_TRUE
+BUILD_QDPXX_TBB_ALLOCATOR_FALSE
+BUILD_QDPXX_TBB_ALLOCATOR_TRUE
 BUILD_DEFAULT_ALLOCATOR_FALSE
 BUILD_DEFAULT_ALLOCATOR_TRUE
 BUILD_WILSON_EXAMPLES_FALSE
@@ -770,6 +772,7 @@ enable_sse3
 enable_3dnow
 enable_bgl
 enable_bgq_thread_binding
+enable_tbb_pool_allocator
 enable_precision
 enable_layout
 with_qmp
@@ -1430,6 +1433,8 @@ Optional Features:
   --enable-bgl            Enable BlueGeneL Optimizations
   --enable-bgq-thread-binding
                           Enable BlueGeneQ Thread Binding
+  --enable-tbb-pool-allocator
+                          Enable Threaded Building Blocks Fixed Pool Allocator
   --enable-precision=single|double
                           Sets the base precision to be single or double
                           precision (default is single)
@@ -3720,6 +3725,14 @@ else
 fi
 
 
+# Check whether --enable-tbb-pool-allocator was given.
+if test "${enable_tbb_pool_allocator+set}" = set; then :
+  enableval=$enable_tbb_pool_allocator;  ac_enable_tbbpool=${enableval}
+else
+   ac_enable_tbbpool="no"
+
+fi
+
 
 if test "X${ac_bgq_bind_enabled}X" = "XyesX";
 then
@@ -4931,6 +4944,16 @@ $as_echo "#define QDP_USE_OMP_THREADS 1" >>confdefs.h
 
 fi
 
+if test "X${ac_enable_tbbpool}X" == "XyesX";
+then
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: Configuring to use TBB Fixed Pool. Please ensure CXXFLAGS and LDFLAGS are correctly set" >&5
+$as_echo "$as_me: Configuring to use TBB Fixed Pool. Please ensure CXXFLAGS and LDFLAGS are correctly set" >&6;}
+
+$as_echo "#define QDP_USE_TBBPOOL_ALLOCATOR 1" >>confdefs.h
+
+fi
+
+
 
  if test "X${PARALLEL_ARCH}X" = "XscalarX"; then
   ARCH_SCALAR_TRUE=
@@ -5026,6 +5049,15 @@ fi
 else
   BUILD_DEFAULT_ALLOCATOR_TRUE='#'
   BUILD_DEFAULT_ALLOCATOR_FALSE=
+fi
+
+
+ if  test "X${ac_enable_tbbpool}X" == "XyesX" ; then
+  BUILD_QDPXX_TBB_ALLOCATOR_TRUE=
+  BUILD_QDPXX_TBB_ALLOCATOR_FALSE='#'
+else
+  BUILD_QDPXX_TBB_ALLOCATOR_TRUE='#'
+  BUILD_QDPXX_TBB_ALLOCATOR_FALSE=
 fi
 
 
@@ -5529,6 +5561,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${BUILD_DEFAULT_ALLOCATOR_TRUE}" && test -z "${BUILD_DEFAULT_ALLOCATOR_FALSE}"; then
   as_fn_error $? "conditional \"BUILD_DEFAULT_ALLOCATOR\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${BUILD_QDPXX_TBB_ALLOCATOR_TRUE}" && test -z "${BUILD_QDPXX_TBB_ALLOCATOR_FALSE}"; then
+  as_fn_error $? "conditional \"BUILD_QDPXX_TBB_ALLOCATOR\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${QDP_USE_QMT_THREADS_TRUE}" && test -z "${QDP_USE_QMT_THREADS_FALSE}"; then
