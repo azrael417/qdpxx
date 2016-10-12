@@ -2420,7 +2420,7 @@ namespace QDP {
 		}
 		exists=objectExists(file_id,".PropagatorFloat3");
 		if(!exists){
-			prop_id=createPropagatorType(colmat_id,Nc);
+			prop_id=createPropagatorType(colmat_id,Ns);
 			commitType(".PropagatorFloat3",prop_id);
 		}
 		else{
