@@ -1575,7 +1575,7 @@ namespace QDP {
 					file_id=H5Fcreate(filename.c_str(),H5F_ACC_EXCL,fcpl_id,fapl_id);
 				}
 				else{
-					HDF5_error_exit("HDF5Writer::open: error, file "+filename+" already exists and is not HDF5 file! Please use overwrite=true to create anew file!");
+					HDF5_error_exit("HDF5Writer::open: error, file "+filename+" already exists and is not HDF5 file! Please use HDF5Base::writemode::trunc to create a new file!");
 				}
 			}
 		}

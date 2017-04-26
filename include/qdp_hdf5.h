@@ -57,7 +57,7 @@ namespace QDP {
 		//constructors:
 		explicit HDF5(const long int& stripesizee=-1, const long int& maxalign=0);
 
-		//stack with all open groups:                                                                                                                    
+		//stack with all open groups:
 		std::string getNameById(hid_t id)const;
 
 		//helper for splitting directory names
